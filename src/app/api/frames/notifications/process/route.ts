@@ -62,6 +62,16 @@ export async function GET(req: NextRequest) {
       .where("identityProvider", "=", "fc")
       .where((db) =>
         db.or([
+          db.eb.eb("s.finishedAt", "is", null),
+          db.eb.eb(
+            "s.finishedAt",
+            "<",
+            new Date(Date.now() - 1000 * 60 * 60 * 3)
+          ),
+        ])
+      )
+      .where((db) =>
+        db.or([
           db.eb.between(
             db.fn.coalesce(
               db.ref("s.data", "->>").key("tzOffset").$castTo<number>(),
@@ -87,7 +97,8 @@ export async function GET(req: NextRequest) {
           return acc;
         }
         const offset = data?.tzOffset ? Number(data.tzOffset) : 0;
-        if (isNaN(offset) || offset < -720 || offset > 720) { // valid timezone range in minutes
+        if (isNaN(offset) || offset < -720 || offset > 720) {
+          // valid timezone range in minutes
           console.warn(`Invalid timezone offset for userId: ${userId}`);
           return acc;
         }
@@ -154,9 +165,9 @@ export async function GET(req: NextRequest) {
     console.log("notifications sent", toNotify.length);
     return NextResponse.json({ ok: true });
   } catch (e) {
-    console.error('Error sending notifications:', e);
+    console.error("Error sending notifications:", e);
     return NextResponse.json(
-      { ok: false, error: e instanceof Error ? e.message : 'Unknown error' },
+      { ok: false, error: e instanceof Error ? e.message : "Unknown error" },
       { status: 500 }
     );
   }
