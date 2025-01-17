@@ -139,8 +139,7 @@ function BreathScreenContent({ onCompleted }: { onCompleted: () => void }) {
           status={active ? "active" : "completed"}
           onCompleted={handleCompleted}
           iterations={iterations}
-          // firstSession={!userCtx?.lastSession}
-          firstSession={true}
+          firstSession={!userCtx?.lastSession}
         />
       </div>
       <div className="max-w-md mx-auto px-4 w-full">

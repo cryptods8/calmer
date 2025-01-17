@@ -20,7 +20,6 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
 
   const userCtx = useUserContext();
   const lastSessionData = userCtx?.lastSession?.data;
-  console.log('CTX', userCtx);
   useEffect(() => {
     if (lastSessionData && !isSetManually && "iterations" in lastSessionData) {
       setIterations(Number(lastSessionData.iterations));

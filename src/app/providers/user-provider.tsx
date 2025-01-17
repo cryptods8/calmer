@@ -111,7 +111,6 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
         console.error("No current user");
         return;
       }
-      console.log("startSession", user, data);
       const session = await fetch(`/api/users/${user?.id}/sessions`, {
         method: "POST",
         body: JSON.stringify({
@@ -129,7 +128,6 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
         console.error("No current user or session");
         return;
       }
-      console.log("endSession", user, args);
       const session = await fetch(
         `/api/users/${user.id}/sessions/${currentSession.id}`,
         {
