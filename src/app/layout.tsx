@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Playwrite_US_Trad as Playwrite, Inter } from "next/font/google";
+import { Providers } from "@/app/providers/providers";
 
 const playwrite = Playwrite({
-  weight: "400",
+  weight: "variable",
   variable: "--font-playwrite",
 });
 
@@ -24,10 +25,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/icon.png" sizes="any" />
+      </head>
       <body
         className={`${playwrite.variable} ${inter.variable} font-inter antialiased bg-green-700 text-green-100`}
       >
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

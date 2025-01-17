@@ -27,7 +27,7 @@ const phaseTexts: Record<PhaseName, { title: string; messages: string[] }> = {
   inhale: {
     title: "Inhale",
     messages: [
-      "Inhale quietly through your nose for 4 seconds",
+      "Inhale through your nose and into your abdomen",
       "Get ready to hold your breath",
     ],
   },
@@ -244,7 +244,7 @@ function ProgressIndicator({
 const maxIterations = 4;
 
 function adjustPhase(phase: Phase) {
-  return { ...phase, duration: phase.duration / 4 };
+  return { ...phase, duration: phase.duration };
 }
 
 interface BreathProps {
