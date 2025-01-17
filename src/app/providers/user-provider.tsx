@@ -61,8 +61,24 @@ function useUser() {
   return { data, loading };
 }
 
+type DataMap = Record<string, string | number | boolean | null | undefined>;
+
 interface UserSessionArgs {
-  data?: Record<string, string | number | boolean | null | undefined>;
+  data?: DataMap;
+}
+
+function toSessionData(data: DataMap | undefined, referralId: string | null) {
+  const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const timeZoneOffset = new Date().getTimezoneOffset();
+  const defaultData: DataMap = {
+    tz: timeZone,
+    tzOffset: timeZoneOffset,
+    ...data,
+  };
+  if (referralId) {
+    defaultData.sid = referralId;
+  }
+  return defaultData;
 }
 
 type UserContextType = {
@@ -99,7 +115,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
       const session = await fetch(`/api/users/${user?.id}/sessions`, {
         method: "POST",
         body: JSON.stringify({
-          data: { ...data, sid: referralId },
+          data: toSessionData(data, referralId),
         }),
       });
       const sessionData = await session.json();
@@ -119,7 +135,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
         {
           method: "PUT",
           body: JSON.stringify({
-            data: { ...args.data, sid: referralId },
+            data: toSessionData(args.data, referralId),
             finishedAt: new Date(),
           }),
         }
