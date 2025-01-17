@@ -56,7 +56,7 @@ function useUser() {
     }
 
     return () => controller.abort();
-  }, [ctx, data, sessionId]);
+  }, [ctx, data, sessionId, referralId]);
 
   return { data, loading };
 }

@@ -70,7 +70,7 @@ function useClientContext({
       setReady(true);
       load();
     }
-  }, [ready]);
+  }, [ready, onLoad]);
 
   const userInfo = useMemo(() => {
     return context?.user ? toUserInfo(context.user) : undefined;

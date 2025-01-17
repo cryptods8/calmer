@@ -104,30 +104,33 @@ function BreathScreenContent({ onCompleted }: { onCompleted: () => void }) {
   const { iterations } = useSettingsContext();
 
   const userCtx = useUserContext();
+  const startSession = userCtx?.startSession;
+  const endSession = userCtx?.endSession;
 
   const startUserSession = useCallback(async () => {
-    if (userCtx?.startSession) {
-      await userCtx.startSession({ data: { iterations } });
+    if (startSession) {
+      await startSession({ data: { iterations } });
     }
-  }, [userCtx?.startSession, iterations]);
+  }, [startSession, iterations]);
   const endUserSession = useCallback(async () => {
-    if (userCtx?.endSession) {
-      await userCtx.endSession({ data: { iterations } });
+    if (endSession) {
+      await endSession({ data: { iterations } });
     }
-  }, [userCtx?.endSession, iterations]);
+  }, [endSession, iterations]);
 
   const handleCompleted = useCallback(() => {
     setActive(false);
     onCompleted();
     endUserSession();
-  }, [endUserSession]);
+  }, [endUserSession, onCompleted]);
 
+  const user = userCtx?.user;
   const handleActiveToggle = useCallback(() => {
-    if (!active && userCtx) {
+    if (!active && user) {
       startUserSession();
     }
     setActive((active) => !active);
-  }, [active, startUserSession]);
+  }, [active, startUserSession, user]);
 
   return (
     <div className="flex flex-1 flex-col gap-8 items-center justify-center w-full">
@@ -160,11 +163,11 @@ function Settings() {
 
   const handleIncreaseIterations = useCallback(
     () => setIterations(iterations + 1),
-    [iterations]
+    [iterations, setIterations]
   );
   const handleDecreaseIterations = useCallback(
     () => setIterations(iterations - 1),
-    [iterations]
+    [iterations, setIterations]
   );
 
   const [sheetOpen, setSheetOpen] = useState(false);
@@ -206,26 +209,28 @@ function IntroScreenContent({ onClose }: { onClose: () => void }) {
     <div className="flex flex-col text-green-100/80 max-w-md mx-auto px-4 flex-1 overflow-hidden gap-4">
       <div className="flex flex-col gap-4 px-2 leading-snug flex-1 justify-center flex-1 overflow-hidden">
         <h3 className="text-2xl text-green-100 font-playwrite font-bold">
-          Welcome to Calmer
+          {"Welcome to Calmer"}
         </h3>
         <div className="flex flex-col gap-2 font-light overflow-y-auto">
           <p>
-            Experience calm and relaxation with the 4-7-8 breathing technique,
-            popularized by Dr. Andrew Weil. This method is designed to help
-            reduce stress, improve sleep, and enhance overall well-being.
+            {
+              "Experience calm and relaxation with the 4-7-8 breathing technique, popularized by Dr. Andrew Weil. This method is designed to help reduce stress, improve sleep, and enhance overall well-being."
+            }
           </p>
-          <p>The Technique:</p>
+          <p>{"The Technique:"}</p>
           <ol className="list-decimal px-8 font-bold space-y-1">
-            <li>Inhale quietly through your nose for 4 seconds.</li>
-            <li>Hold your breath for 7 seconds.</li>
-            <li>Exhale completely through your mouth for 8 seconds.</li>
+            <li>{"Inhale quietly through your nose for 4 seconds."}</li>
+            <li>{"Hold your breath for 7 seconds."}</li>
+            <li>{"Exhale completely through your mouth for 8 seconds."}</li>
           </ol>
-          <p>Repeat 3 more times. Practice regularly for optimal benefits.</p>
+          <p>
+            {"Repeat 3 more times. Practice regularly for optimal benefits."}
+          </p>
         </div>
       </div>
       <MainButtonContainer>
         <Button onClick={onClose} className="w-full" variant="primary">
-          Let's go
+          {"Let's go"}
         </Button>
       </MainButtonContainer>
     </div>
@@ -237,38 +242,39 @@ function OutroScreenContent({ onBack }: { onBack: () => void }) {
   const userCtx = useUserContext();
   const currentSession = userCtx?.currentSession;
 
+  const share = ctx?.share;
   const handleShare = useCallback(() => {
     const url = `${externalBaseUrl}${
       currentSession?.id ? `?sid=${currentSession.id}` : ""
     }`;
-    ctx?.share({
+    share?.({
       title: "Do you want to feel @calmer too?",
       url,
       channelKey: "calmer",
     });
-  }, [ctx?.share, currentSession]);
+  }, [share, currentSession]);
 
   return (
     <div className="flex flex-col text-green-100/60 max-w-md mx-auto px-4 w-full h-full gap-4">
       <div className="flex flex-col gap-4 flex-1 justify-center text-center">
         <h3 className="text-3xl text-green-100 font-playwrite font-bold">
-          You did it!
+          {"You did it!"}
         </h3>
         <p className="text-base text-green-100/60">
-          You've completed the 4-7-8 breathing technique and now you should feel{" "}
+          {"You've completed the 4-7-8 breathing technique and now you should feel "}
           <span className="font-playwrite font-bold">Calmer</span>
         </p>
       </div>
       <MainButtonContainer>
         <Button onClick={handleShare} className="w-full" variant="primary">
-          Share
+          {"Share"}
         </Button>
         <span className="text-green-100/40 text-center text-xs pt-1">
           {"…and help your friends feel "}
           <span className="font-playwrite font-bold">Calmer</span>
         </span>
         <Button onClick={onBack} className="w-full" variant="ghost">
-          Let's do it again
+          {"Let's do it again"}
         </Button>
       </MainButtonContainer>
     </div>

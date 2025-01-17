@@ -45,24 +45,6 @@ const phaseTexts: Record<PhaseName, { title: string; messages: string[] }> = {
   },
 };
 
-const progressStep = 10;
-
-function pad(value: number, length: number) {
-  return value.toString().padStart(length, "0");
-}
-
-function FormatTime({ value }: { value: number }) {
-  const seconds = Math.floor(value / 1000);
-  return (
-    <div className="font-mono">
-      <span>{seconds}</span>
-      <small>
-        <small>{`.${pad(Math.floor((value % 1000) / 10), 2)}`}</small>
-      </small>
-    </div>
-  );
-}
-
 function PhaseMessages({
   messages,
   duration,
@@ -266,15 +248,16 @@ export function Breath({
   );
 
   const isActive = status === "active";
+  const phaseDuration = phase.duration;
   useEffect(() => {
     if (!isActive) {
       return;
     }
     const timeout = setTimeout(() => {
       setPhaseIdx((prev) => prev + 1);
-    }, phase.duration);
+    }, phaseDuration);
     return () => clearTimeout(timeout);
-  }, [phaseIdx, isActive]);
+  }, [phaseIdx, isActive, phaseDuration]);
 
   useEffect(() => {
     if (status === "completed") {
@@ -286,7 +269,7 @@ export function Breath({
     if (phaseIdx === iterations * phases.length) {
       onCompleted?.();
     }
-  }, [phaseIdx, iterations]);
+  }, [phaseIdx, iterations, onCompleted]);
 
   const iteration =
     phaseIdx === -1
@@ -312,7 +295,7 @@ export function Breath({
               <ProgressIndicator
                 active={isActive && i === iteration}
                 iteration={i}
-                duration={phase.duration}
+                duration={phaseDuration}
                 phaseName={phase.name}
                 showMessages={iteration < 2 && firstSession}
               />

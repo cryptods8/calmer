@@ -26,8 +26,8 @@ async function migrateToLatest() {
   await pgDb.destroy();
 }
 
-function handleResults(error: any, results: MigrationResult[] | undefined) {
-  results?.forEach((it: any) => {
+function handleResults(error: unknown, results: MigrationResult[] | undefined) {
+  results?.forEach((it: MigrationResult) => {
     if (it.status === 'Success') {
       console.log(`migration "${it.migrationName}" was executed successfully`);
     } else if (it.status === 'Error') {

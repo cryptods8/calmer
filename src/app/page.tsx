@@ -7,7 +7,7 @@ import { FrameEmbedNext } from "@farcaster/frame-node";
 export async function generateMetadata({
   searchParams,
 }: {
-  searchParams: { sid: string };
+  searchParams: Promise<{ sid: string }>;
 }): Promise<Metadata> {
   const { sid } = await searchParams;
 

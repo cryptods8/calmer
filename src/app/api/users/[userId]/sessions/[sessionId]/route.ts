@@ -3,12 +3,14 @@ import { pgDb } from "@/app/db/db";
 
 export async function PUT(
   request: NextRequest,
-  context: { params: { userId: string; sessionId: string } }
+  { params }: { params: Promise<{ sessionId: string; userId: string }> }
 ) {
   const requestJson = (await request.json()) as {
     data: Record<string, string | number | boolean | null | undefined> | null;
     finishedAt: Date | null;
   };
+
+  const { sessionId } = await params;
 
   const session = await pgDb
     .updateTable("userSession")
@@ -17,7 +19,7 @@ export async function PUT(
       finishedAt: requestJson.finishedAt,
       updatedAt: new Date(),
     })
-    .where("id", "=", context.params.sessionId)
+    .where("id", "=", sessionId)
     .returningAll()
     .executeTakeFirst();
 

@@ -11,6 +11,7 @@ const playwrite = Playwrite({
 const inter = Inter({
   weight: "variable",
   variable: "--font-inter",
+  subsets: ["latin"],
 });
 
 export const metadata: Metadata = {

@@ -4,15 +4,16 @@ import { v4 as uuid } from "uuid";
 
 export async function POST(
   request: NextRequest,
-  context: { params: { userId: string } }
+  { params }: { params: Promise<{ userId: string }> }
 ) {
+  const { userId } = await params;
   // TODO: Check if user exists
   const { data } = await request.json();
   const sessionId = uuid();
   const session = await pgDb
     .insertInto("userSession")
     .values({
-      userId: context.params.userId,
+      userId,
       id: sessionId,
       createdAt: new Date(),
       updatedAt: new Date(),
