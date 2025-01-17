@@ -7,9 +7,9 @@ const accountAssociation = isProduction
   ? {
       header:
         "eyJmaWQiOjExMTI0LCJ0eXBlIjoiY3VzdG9keSIsImtleSI6IjB4ZENjODlEZjVGYzhENDJDNTQ0MzM4ODUzMWFGMTU1MUUwRmJkNUNBZCJ9",
-      payload: "eyJkb21haW4iOiJmcmFtZWRsLnh5eiJ9",
+      payload: "eyJkb21haW4iOiJjYWxtZXIub25mYy54eXoifQ",
       signature:
-        "MHhhMzljN2EzZTJiZmU1NmZjZDM4YTgxNDkxMjk4YjcxZGZkNTk0ZmJmODBjN2I0YmUwNGU5ZjUwMTYyZjYyZTgzNDliNDllZGNjNjgzM2M0MmZiODZlNDMyMDNkYmU3YzlkZGJkNjJiYWU1M2Q5ZDllODY1YTk3MDk1YmMwODMzZTFj",
+        "MHgyMTFiZmZkOGQwNGFmZWEwMzI0ZWQwMDRlMzM3NjY4MTVjMTVhMDUzZmY1MDc3NjY4Njg3MmMyMjQwMjBiNTlhMjQ2ZmMwYzU0OGI5MzE4NGYyMWZjYjY3YjViN2Q5NzdmYWUwYzFmNmRjMWM5OGQxYzJmNmVlODAzY2YxYTA2NjFj",
     }
   : {
       header:
