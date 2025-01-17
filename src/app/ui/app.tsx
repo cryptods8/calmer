@@ -247,7 +247,7 @@ function OutroScreenContent({ onBack }: { onBack: () => void }) {
       currentSession?.id ? `?sid=${currentSession.id}` : ""
     }`;
     share?.({
-      title: "Do you want to feel @calmer too?",
+      title: "Do you want to feel @calmer too?\n\n" + url,
       url,
       channelKey: "calmer",
     });
