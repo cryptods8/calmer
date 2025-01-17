@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "buildAndMigrate": "next build && tsx --env-file=.env src/app/db/migrator.ts up",
+    "buildAndMigrate": "next build && tsx src/app/db/migrator.ts up",
     "migrate": "tsx --env-file=.env src/app/db/migrator.ts up",
     "migrate:down": "tsx --env-file=.env src/app/db/migrator.ts down"
   },
