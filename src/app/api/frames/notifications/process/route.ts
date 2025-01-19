@@ -74,7 +74,10 @@ export async function GET(req: NextRequest) {
         db.or([
           db.eb.between(
             db.fn.coalesce(
-              db.ref("s.data", "->>").key("tzOffset").$castTo<number>(),
+              db.cast(
+                db.ref("s.data", "->>").key("tzOffset"),
+                "numeric"
+              ),
               db.val(0)
             ),
             morningOffsetMinutes,
@@ -82,7 +85,10 @@ export async function GET(req: NextRequest) {
           ),
           db.eb.between(
             db.fn.coalesce(
-              db.ref("s.data", "->>").key("tzOffset").$castTo<number>(),
+              db.cast(
+                db.ref("s.data", "->>").key("tzOffset"),
+                "numeric"
+              ),
               db.val(0)
             ),
             eveningOffsetMinutes,
