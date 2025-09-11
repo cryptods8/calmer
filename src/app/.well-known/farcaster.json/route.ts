@@ -33,6 +33,9 @@ export async function GET() {
       homeUrl: `${externalBaseUrl}`,
       webhookUrl: `${externalBaseUrl}/api/frames/webhook`,
     },
+    baseBuilder: {
+      allowedAddresses: ["0xD322Cb0aD9e29Bb121Aa3DB089A2C7def441F168"],
+    },
   };
   return NextResponse.json(manifest);
 }
